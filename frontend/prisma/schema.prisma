@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Dataset {
+  id          String   @id
+  name        String
+  fileType    String
+  rowCount    Int
+  columnCount Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  charts      Chart[]
+}
+
+model Chart {
+  id        String   @id @default(cuid())
+  datasetId String
+  dataset   Dataset  @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  type      String
+  config    String
+  createdAt DateTime @default(now())
+}
