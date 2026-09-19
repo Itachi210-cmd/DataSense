@@ -25,7 +25,7 @@ async def get_dataset_summary(dataset_id: str):
 async def get_dataset_preview(
     dataset_id: str,
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
-    page_size: int = Query(25, ge=5, le=100, description="Number of rows per page"),
+    page_size: int = Query(25, ge=1, le=100, description="Number of rows per page"),
     search: str = Query("", description="Search term across all columns"),
     sort_column: Optional[str] = Query(None, description="Column name to sort by"),
     sort_direction: str = Query("asc", pattern="^(asc|desc)$", description="Sort direction"),

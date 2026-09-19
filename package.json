@@ -1,0 +1,15 @@
+{
+  "name": "datasense-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DataSense — Web-Based Data Analysis Platform",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "python backend/run.py",
+    "build": "npm --prefix frontend run build",
+    "test:backend": "python backend/test_backend.py",
+    "prisma:generate": "npm --prefix frontend run prisma:generate",
+    "prisma:push": "npm --prefix frontend run prisma:push"
+  }
+}

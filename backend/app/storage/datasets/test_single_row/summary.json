@@ -1,0 +1,339 @@
+{
+  "id": "test_single_row",
+  "name": "single_row.csv",
+  "file_type": "csv",
+  "file_size_bytes": 100,
+  "file_size_formatted": "100 B",
+  "row_count": 1,
+  "column_count": 18,
+  "missing_cells_count": 1,
+  "missing_cells_percentage": 5.56,
+  "duplicate_rows_count": 0,
+  "memory_usage_bytes": 810,
+  "memory_usage_formatted": "810 B",
+  "columns": [
+    {
+      "name": "Invoice ID",
+      "index": 0,
+      "letter": "A",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "754-24-1409"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Branch",
+      "index": 1,
+      "letter": "B",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "C"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "City",
+      "index": 2,
+      "letter": "C",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Naypyitaw"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Customer type",
+      "index": 3,
+      "letter": "D",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Normal"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Gender",
+      "index": 4,
+      "letter": "E",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Female"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Product line",
+      "index": 5,
+      "letter": "F",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Electronic accessories"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Unit price",
+      "index": 6,
+      "letter": "G",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        22.56
+      ],
+      "min_value": 22.56,
+      "max_value": 22.56,
+      "mean_value": 22.56,
+      "median_value": 22.56
+    },
+    {
+      "name": "Quantity",
+      "index": 7,
+      "letter": "H",
+      "data_type": "Number",
+      "original_dtype": "int64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        2
+      ],
+      "min_value": 2.0,
+      "max_value": 2.0,
+      "mean_value": 2.0,
+      "median_value": 2.0
+    },
+    {
+      "name": "Tax 5%",
+      "index": 8,
+      "letter": "I",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        2.26
+      ],
+      "min_value": 2.26,
+      "max_value": 2.26,
+      "mean_value": 2.26,
+      "median_value": 2.26
+    },
+    {
+      "name": "Total",
+      "index": 9,
+      "letter": "J",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        47.38
+      ],
+      "min_value": 47.38,
+      "max_value": 47.38,
+      "mean_value": 47.38,
+      "median_value": 47.38
+    },
+    {
+      "name": "Date",
+      "index": 10,
+      "letter": "K",
+      "data_type": "Date",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "2024-03-27"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Time",
+      "index": 11,
+      "letter": "L",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "18:05"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Payment",
+      "index": 12,
+      "letter": "M",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Credit card"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "cogs",
+      "index": 13,
+      "letter": "N",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        45.12
+      ],
+      "min_value": 45.12,
+      "max_value": 45.12,
+      "mean_value": 45.12,
+      "median_value": 45.12
+    },
+    {
+      "name": "gross margin percentage",
+      "index": 14,
+      "letter": "O",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        4.7619
+      ],
+      "min_value": 4.76,
+      "max_value": 4.76,
+      "mean_value": 4.76,
+      "median_value": 4.76
+    },
+    {
+      "name": "gross income",
+      "index": 15,
+      "letter": "P",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        2.26
+      ],
+      "min_value": 2.26,
+      "max_value": 2.26,
+      "mean_value": 2.26,
+      "median_value": 2.26
+    },
+    {
+      "name": "Rating",
+      "index": 16,
+      "letter": "Q",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        6.5
+      ],
+      "min_value": 6.5,
+      "max_value": 6.5,
+      "mean_value": 6.5,
+      "median_value": 6.5
+    },
+    {
+      "name": "All_Null_Col",
+      "index": 17,
+      "letter": "R",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 0,
+      "null_count": 1,
+      "null_percentage": 100.0,
+      "unique_count": 0,
+      "sample_values": [],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    }
+  ],
+  "created_at": "2026-09-19T08:30:42.348561Z"
+}

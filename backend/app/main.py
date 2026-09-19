@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from .routers import upload_router, dataset_router
+from .routers import upload_router, dataset_router, clean_router, analysis_router, chart_router
 
 app = FastAPI(
     title="DataSense API",
@@ -29,6 +29,11 @@ app.add_middleware(
 # Register routers
 app.include_router(upload_router)
 app.include_router(dataset_router)
+app.include_router(clean_router)
+app.include_router(analysis_router)
+app.include_router(chart_router)
+
+
 
 
 @app.get("/health", tags=["Health"])
