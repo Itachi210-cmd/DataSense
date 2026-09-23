@@ -1,0 +1,465 @@
+{
+  "id": "real_anime_single_row",
+  "name": "single_row.csv",
+  "file_type": "csv",
+  "file_size_bytes": 100,
+  "file_size_formatted": "100 B",
+  "row_count": 1,
+  "column_count": 25,
+  "missing_cells_count": 1,
+  "missing_cells_percentage": 4.0,
+  "duplicate_rows_count": 0,
+  "memory_usage_bytes": 2466,
+  "memory_usage_formatted": "2.4 KB",
+  "columns": [
+    {
+      "name": "anime_id",
+      "index": 0,
+      "letter": "A",
+      "data_type": "Number",
+      "original_dtype": "int64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        1
+      ],
+      "min_value": 1.0,
+      "max_value": 1.0,
+      "mean_value": 1.0,
+      "median_value": 1.0
+    },
+    {
+      "name": "Name",
+      "index": 1,
+      "letter": "B",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Cowboy Bebop"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "English name",
+      "index": 2,
+      "letter": "C",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Cowboy Bebop"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Other name",
+      "index": 3,
+      "letter": "D",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "\u30ab\u30a6\u30dc\u30fc\u30a4\u30d3\u30d0\u30c3\u30d7"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Score",
+      "index": 4,
+      "letter": "E",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        8.75
+      ],
+      "min_value": 8.75,
+      "max_value": 8.75,
+      "mean_value": 8.75,
+      "median_value": 8.75
+    },
+    {
+      "name": "Genres",
+      "index": 5,
+      "letter": "F",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Action, Award Winning, Sci-Fi"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Synopsis",
+      "index": 6,
+      "letter": "G",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Crime is timeless. By the year 2071, humanity has expanded across the galaxy, filling the surface of"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Type",
+      "index": 7,
+      "letter": "H",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "TV"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Episodes",
+      "index": 8,
+      "letter": "I",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        26.0
+      ],
+      "min_value": 26.0,
+      "max_value": 26.0,
+      "mean_value": 26.0,
+      "median_value": 26.0
+    },
+    {
+      "name": "Aired",
+      "index": 9,
+      "letter": "J",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Apr 3, 1998 to Apr 24, 1999"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Premiered",
+      "index": 10,
+      "letter": "K",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "spring 1998"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Status",
+      "index": 11,
+      "letter": "L",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Finished Airing"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Producers",
+      "index": 12,
+      "letter": "M",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Bandai Visual"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Licensors",
+      "index": 13,
+      "letter": "N",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Funimation, Bandai Entertainment"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Studios",
+      "index": 14,
+      "letter": "O",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Sunrise"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Source",
+      "index": 15,
+      "letter": "P",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "Original"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Duration",
+      "index": 16,
+      "letter": "Q",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "24 min per ep"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Rating",
+      "index": 17,
+      "letter": "R",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "R - 17+ (violence & profanity)"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "Rank",
+      "index": 18,
+      "letter": "S",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        41.0
+      ],
+      "min_value": 41.0,
+      "max_value": 41.0,
+      "mean_value": 41.0,
+      "median_value": 41.0
+    },
+    {
+      "name": "Popularity",
+      "index": 19,
+      "letter": "T",
+      "data_type": "Number",
+      "original_dtype": "int64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        43
+      ],
+      "min_value": 43.0,
+      "max_value": 43.0,
+      "mean_value": 43.0,
+      "median_value": 43.0
+    },
+    {
+      "name": "Favorites",
+      "index": 20,
+      "letter": "U",
+      "data_type": "Number",
+      "original_dtype": "int64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        78525
+      ],
+      "min_value": 78525.0,
+      "max_value": 78525.0,
+      "mean_value": 78525.0,
+      "median_value": 78525.0
+    },
+    {
+      "name": "Scored By",
+      "index": 21,
+      "letter": "V",
+      "data_type": "Number",
+      "original_dtype": "float64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        914193.0
+      ],
+      "min_value": 914193.0,
+      "max_value": 914193.0,
+      "mean_value": 914193.0,
+      "median_value": 914193.0
+    },
+    {
+      "name": "Members",
+      "index": 22,
+      "letter": "W",
+      "data_type": "Number",
+      "original_dtype": "int64",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        1771505
+      ],
+      "min_value": 1771505.0,
+      "max_value": 1771505.0,
+      "mean_value": 1771505.0,
+      "median_value": 1771505.0
+    },
+    {
+      "name": "Image URL",
+      "index": 23,
+      "letter": "X",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 1,
+      "null_count": 0,
+      "null_percentage": 0.0,
+      "unique_count": 1,
+      "sample_values": [
+        "https://cdn.myanimelist.net/images/anime/4/19644.jpg"
+      ],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    },
+    {
+      "name": "_Synthetic_All_Null",
+      "index": 24,
+      "letter": "Y",
+      "data_type": "Text",
+      "original_dtype": "object",
+      "non_null_count": 0,
+      "null_count": 1,
+      "null_percentage": 100.0,
+      "unique_count": 0,
+      "sample_values": [],
+      "min_value": null,
+      "max_value": null,
+      "mean_value": null,
+      "median_value": null
+    }
+  ],
+  "created_at": "2026-09-23T07:09:20.918077Z"
+}

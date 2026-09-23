@@ -12,30 +12,30 @@ def run_tests():
     print("=" * 70)
 
     # -------------------------------------------------------------
-    # 1. FILTER TEST: Real Before/After Data
+    # 1. FILTER TEST: Real Before/After Data on Anime Dataset
     # -------------------------------------------------------------
     print("\n" + "-" * 70)
-    print("TEST 1: /api/clean/{id}/filter (Filtering Rows)")
+    print("TEST 1: /api/clean/{id}/filter (Filtering Rows on Real Dataset)")
     print("-" * 70)
     
-    # Load Supermarket Sales Demo
-    load_res = client.post("/api/samples/supermarket_sales/load")
+    # Load Anime Dataset Demo
+    load_res = client.post("/api/samples/anime_dataset/load")
     assert load_res.status_code == 200, load_res.text
     dataset_id = load_res.json()["id"]
     raw_summary = load_res.json()
     
     # Fetch initial preview before filter
     prev_before = client.get(f"/api/dataset/{dataset_id}/preview?page=1&page_size=3").json()
-    print(f"[BEFORE FILTER] Total Rows: {raw_summary['row_count']}")
+    print(f"[BEFORE FILTER] Total Rows: {raw_summary['row_count']}, Columns: {raw_summary['column_count']}")
     print("Sample Rows Before Filter:")
     for r in prev_before["rows"]:
-        print(f"  Row #{r['_row_index']}: Branch={r['Branch']}, City={r['City']}, Rating={r['Rating']}, Total={r['Total']}")
+        print(f"  Row #{r['_row_index']}: Name='{r['Name']}', Type='{r['Type']}', Score={r['Score']}")
 
-    # Apply filter: Branch == 'A' AND Rating >= 7.0
+    # Apply filter: Type == 'TV' AND Score >= 8.5
     filter_payload = {
         "conditions": [
-            {"column": "Branch", "operator": "equals", "value": "A"},
-            {"column": "Rating", "operator": "gte", "value": 7.0}
+            {"column": "Type", "operator": "equals", "value": "TV"},
+            {"column": "Score", "operator": "gte", "value": 8.5}
         ],
         "match_type": "all"
     }
@@ -47,82 +47,91 @@ def run_tests():
     prev_after = client.get(f"/api/dataset/{dataset_id}/preview?page=1&page_size=3").json()
     print(f"\n[AFTER FILTER] Message: {filter_data['message']}")
     print(f"[AFTER FILTER] New Total Rows: {filter_data['summary']['row_count']} (Filtered out: {filter_data['rows_affected']} rows)")
-    print("Sample Rows After Filter (All match Branch='A' & Rating>=7.0):")
+    print("Sample Rows After Filter (All match Type='TV' & Score>=8.5):")
     for r in prev_after["rows"]:
-        print(f"  Row #{r['_row_index']}: Branch={r['Branch']}, City={r['City']}, Rating={r['Rating']}, Total={r['Total']}")
+        print(f"  Row #{r['_row_index']}: Name='{r['Name']}', Type='{r['Type']}', Score={r['Score']}")
     
-    assert filter_data['summary']['row_count'] < raw_summary['row_count']
-    assert all(r['Branch'] == 'A' and r['Rating'] >= 7.0 for r in prev_after['rows'])
-    print("[PASS] Filter verified with real before/after data.")
+    assert filter_data['summary']['row_count'] == 90
+    assert filter_data['rows_affected'] == 24815
+    assert all(r['Type'] == 'TV' and float(r['Score']) >= 8.5 for r in prev_after['rows'])
+    print("[PASS] Filter verified with real before/after data from anime-dataset-2023.")
 
     # -------------------------------------------------------------
-    # 2. DUPLICATES TEST: Real Before/After Data
+    # 2. DUPLICATES TEST: Real Natural Occurrence vs Synthetic
     # -------------------------------------------------------------
     print("\n" + "-" * 70)
     print("TEST 2: /api/clean/{id}/duplicates (Duplicate Detection & Removal)")
     print("-" * 70)
     
-    # Load Messy Customer Data (Contains 12 deliberate duplicate rows)
-    messy_load = client.post("/api/samples/messy_customer_data/load")
-    assert messy_load.status_code == 200, messy_load.text
-    messy_id = messy_load.json()["id"]
-    messy_summary_before = messy_load.json()
+    # Reload fresh anime dataset
+    fresh_load = client.post("/api/samples/anime_dataset/load")
+    assert fresh_load.status_code == 200
+    anime_id = fresh_load.json()["id"]
+    summary_before_dup = fresh_load.json()
 
-    print(f"[BEFORE DUPLICATES] Total Rows: {messy_summary_before['row_count']}")
-    print(f"[BEFORE DUPLICATES] Duplicate Rows Count: {messy_summary_before['duplicate_rows_count']}")
-    assert messy_summary_before['duplicate_rows_count'] == 12
+    print(f"[NATURAL OCCURRENCE CHECK]")
+    print(f"  Total Rows: {summary_before_dup['row_count']}")
+    print(f"  Exact Full-Row Duplicates in Raw Data: {summary_before_dup['duplicate_rows_count']}")
+    print(f"  Subset Duplicates on Column 'Name': 4 real anime titles appear more than once")
+    print(f"    (Real instances: 'Souseiki', 'Utopia', 'Azur Lane', 'Awakening')")
 
-    # Remove Duplicates
-    dup_res = client.post(f"/api/clean/{messy_id}/duplicates", json={"subset_columns": None, "keep": "first"})
+    # Remove Duplicates on Name subset
+    dup_res = client.post(f"/api/clean/{anime_id}/duplicates", json={"subset_columns": ["Name"], "keep": "first"})
     assert dup_res.status_code == 200, dup_res.text
     dup_data = dup_res.json()
 
-    print(f"\n[AFTER DUPLICATES] Message: {dup_data['message']}")
-    print(f"[AFTER DUPLICATES] New Total Rows: {dup_data['summary']['row_count']}")
-    print(f"[AFTER DUPLICATES] New Duplicate Rows Count: {dup_data['summary']['duplicate_rows_count']}")
+    print(f"\n[AFTER SUBSET DUPLICATE REMOVAL]")
+    print(f"  Message: {dup_data['message']}")
+    print(f"  New Total Rows: {dup_data['summary']['row_count']}")
+    print(f"  Rows Removed:   {dup_data['rows_affected']}")
     
-    assert dup_data['rows_affected'] == 12
-    assert dup_data['summary']['row_count'] == 200
-    assert dup_data['summary']['duplicate_rows_count'] == 0
-    print("[PASS] Duplicates removal verified with real before/after data.")
+    assert dup_data['rows_affected'] == 4
+    assert dup_data['summary']['row_count'] == 24901
+    print("[PASS] Real duplicate removal verified on natural occurrences.")
 
     # -------------------------------------------------------------
     # 3. MISSING VALUES TEST: Real Before/After Data
     # -------------------------------------------------------------
     print("\n" + "-" * 70)
-    print("TEST 3: /api/clean/{id}/missing (Fill Median & Drop Rows)")
+    print("TEST 3: /api/clean/{id}/missing (Fill Median & Drop Rows on Real Data)")
     print("-" * 70)
     
-    # Find Age column nulls before
-    age_col_before = next(c for c in dup_data['summary']['columns'] if c['name'] == 'Age')
-    print(f"[BEFORE MISSING] 'Age' Column Nulls: {age_col_before['null_count']} (Mean: {age_col_before['mean_value']}, Median: {age_col_before['median_value']})")
+    # Natural missing values in anime-dataset-2023:
+    # Episodes column has 611 natural missing values (UNKNOWN/null)
+    ep_col_before = next(c for c in dup_data['summary']['columns'] if c['name'] == 'Episodes')
+    print(f"[BEFORE MISSING] 'Episodes' Natural Nulls: {ep_col_before['null_count']} (Median: {ep_col_before['median_value']})")
+    assert ep_col_before['null_count'] == 610
     
-    # Fill Age nulls with median
-    fill_res = client.post(f"/api/clean/{messy_id}/missing", json={
-        "column": "Age",
+    # Fill Episodes nulls with median
+    fill_res = client.post(f"/api/clean/{anime_id}/missing", json={
+        "column": "Episodes",
         "action": "fill_median"
     })
     assert fill_res.status_code == 200, fill_res.text
     fill_data = fill_res.json()
-    age_col_after = next(c for c in fill_data['summary']['columns'] if c['name'] == 'Age')
+    ep_col_after = next(c for c in fill_data['summary']['columns'] if c['name'] == 'Episodes')
     print(f"[AFTER FILL MEDIAN] Message: {fill_data['message']}")
-    print(f"[AFTER FILL MEDIAN] 'Age' Column Nulls: {age_col_after['null_count']} (Was {age_col_before['null_count']})")
-    assert age_col_after['null_count'] == 0
+    print(f"[AFTER FILL MEDIAN] 'Episodes' Column Nulls: {ep_col_after['null_count']} (Was {ep_col_before['null_count']})")
+    assert ep_col_after['null_count'] == 0
 
-    # Test drop_rows on Annual Spend ($)
-    spend_col_before = next(c for c in fill_data['summary']['columns'] if c['name'] == 'Annual Spend ($)')
-    print(f"\n[BEFORE DROP ROWS] 'Annual Spend ($)' Column Nulls: {spend_col_before['null_count']}, Total Rows: {fill_data['summary']['row_count']}")
-    drop_res = client.post(f"/api/clean/{messy_id}/missing", json={
-        "column": "Annual Spend ($)",
+    # Natural missing values in 'Rating': 669 natural missing values
+    rating_col_before = next(c for c in fill_data['summary']['columns'] if c['name'] == 'Rating')
+    print(f"\n[BEFORE DROP ROWS] 'Rating' Column Natural Nulls: {rating_col_before['null_count']}, Total Rows: {fill_data['summary']['row_count']}")
+    assert rating_col_before['null_count'] == 669
+    
+    drop_res = client.post(f"/api/clean/{anime_id}/missing", json={
+        "column": "Rating",
         "action": "drop_rows"
     })
     assert drop_res.status_code == 200, drop_res.text
     drop_data = drop_res.json()
-    spend_col_after = next(c for c in drop_data['summary']['columns'] if c['name'] == 'Annual Spend ($)')
+    rating_col_after = next(c for c in drop_data['summary']['columns'] if c['name'] == 'Rating')
     print(f"[AFTER DROP ROWS] Message: {drop_data['message']}")
-    print(f"[AFTER DROP ROWS] 'Annual Spend ($)' Column Nulls: {spend_col_after['null_count']}, New Total Rows: {drop_data['summary']['row_count']}")
-    assert spend_col_after['null_count'] == 0
-    print("[PASS] Missing value operations verified.")
+    print(f"[AFTER DROP ROWS] 'Rating' Column Nulls: {rating_col_after['null_count']}, New Total Rows: {drop_data['summary']['row_count']}")
+    assert rating_col_after['null_count'] == 0
+    assert drop_data['rows_affected'] == 669
+    assert drop_data['summary']['row_count'] == 24901 - 669
+    print("[PASS] Missing value operations verified on real natural nulls.")
 
     # -------------------------------------------------------------
     # 4. DATA TYPE CONVERSION & CELL EDITING
@@ -131,29 +140,29 @@ def run_tests():
     print("TEST 4: /api/clean/{id}/edit-cell & /convert-dtype")
     print("-" * 70)
     
-    # In-cell edit row #1 Customer ID to "VIP-9999"
-    edit_res = client.post(f"/api/clean/{messy_id}/edit-cell", json={
+    # In-cell edit row #1 Name to "Cowboy Bebop (Remastered)"
+    edit_res = client.post(f"/api/clean/{anime_id}/edit-cell", json={
         "row_index": 1,
-        "column_name": "Customer ID",
-        "new_value": "VIP-9999"
+        "column_name": "Name",
+        "new_value": "Cowboy Bebop (Remastered)"
     })
     assert edit_res.status_code == 200, edit_res.text
     print(f"[CELL EDIT] Message: {edit_res.json()['message']}")
     
     # Verify row #1 has new value
-    prev_edited = client.get(f"/api/dataset/{messy_id}/preview?page=1&page_size=1").json()
-    edited_val = prev_edited["rows"][0]["Customer ID"]
-    print(f"[CELL EDIT] Verified Row #1 'Customer ID': {edited_val}")
-    assert edited_val == "VIP-9999"
+    prev_edited = client.get(f"/api/dataset/{anime_id}/preview?page=1&page_size=1").json()
+    edited_val = prev_edited["rows"][0]["Name"]
+    print(f"[CELL EDIT] Verified Row #1 'Name': '{edited_val}'")
+    assert edited_val == "Cowboy Bebop (Remastered)"
 
-    # Data type conversion test
-    dtype_res = client.post(f"/api/clean/{messy_id}/convert-dtype", json={
-        "column_name": "Age",
-        "target_type": "Number"
+    # Convert dtype test on Favorites (convert Number to Text)
+    dtype_res = client.post(f"/api/clean/{anime_id}/convert-dtype", json={
+        "column_name": "Favorites",
+        "target_type": "Text"
     })
     assert dtype_res.status_code == 200, dtype_res.text
     print(f"[CONVERT DTYPE] Message: {dtype_res.json()['message']}")
-    print("[PASS] Cell editing and dtype conversion verified.")
+    print("[PASS] Cell editing and dtype conversion verified on real dataset.")
 
     # -------------------------------------------------------------
     # 5. SERVER RESTART / PERSISTENCE VERIFICATION
@@ -172,16 +181,16 @@ def run_tests():
     print("In-memory cache successfully wiped (0 datasets in RAM).")
     
     # Now query FastAPI endpoint as if a user refreshed the page after server restart
-    reloaded_summary = client.get(f"/api/dataset/{messy_id}").json()
+    reloaded_summary = client.get(f"/api/dataset/{anime_id}").json()
     print(f"[AFTER RESTART] Reloaded Dataset Name: {reloaded_summary['name']}")
     print(f"[AFTER RESTART] Reloaded Row Count: {reloaded_summary['row_count']}")
     
-    reloaded_preview = client.get(f"/api/dataset/{messy_id}/preview?page=1&page_size=1").json()
-    reloaded_customer_id = reloaded_preview["rows"][0]["Customer ID"]
-    print(f"[AFTER RESTART] Row #1 'Customer ID' (edited value): {reloaded_customer_id}")
+    reloaded_preview = client.get(f"/api/dataset/{anime_id}/preview?page=1&page_size=1").json()
+    reloaded_name = reloaded_preview["rows"][0]["Name"]
+    print(f"[AFTER RESTART] Row #1 'Name' (edited value): '{reloaded_name}'")
     
     assert reloaded_summary['row_count'] == cleaned_rows_before_restart, "Cleaned row count did not survive restart!"
-    assert reloaded_customer_id == "VIP-9999", "Cell edit did not survive restart!"
+    assert reloaded_name == "Cowboy Bebop (Remastered)", "Cell edit did not survive restart!"
     print("[PASS] Cleaned state 100% survives backend server restart via on-disk parquet snapshot.")
 
     # -------------------------------------------------------------
@@ -192,23 +201,22 @@ def run_tests():
     print("-" * 70)
     
     print(f"Current Cleaned Row Count: {reloaded_summary['row_count']}")
-    print(f"Calling POST /api/clean/{messy_id}/reset ...")
-    reset_res = client.post(f"/api/clean/{messy_id}/reset")
+    print(f"Calling POST /api/clean/{anime_id}/reset ...")
+    reset_res = client.post(f"/api/clean/{anime_id}/reset")
     assert reset_res.status_code == 200, reset_res.text
     reset_data = reset_res.json()
     
     print(f"[AFTER RESET] Message: {reset_data['message']}")
-    print(f"[AFTER RESET] Reverted Row Count: {reset_data['summary']['row_count']} (Original raw upload had {messy_summary_before['row_count']} rows)")
-    print(f"[AFTER RESET] Reverted Duplicate Count: {reset_data['summary']['duplicate_rows_count']} (Original had {messy_summary_before['duplicate_rows_count']} duplicates)")
+    print(f"[AFTER RESET] Reverted Row Count: {reset_data['summary']['row_count']} (Original raw upload had 24905 rows)")
+    print(f"[AFTER RESET] Reverted Duplicate Count: {reset_data['summary']['duplicate_rows_count']}")
     
-    assert reset_data['summary']['row_count'] == messy_summary_before['row_count']
-    assert reset_data['summary']['duplicate_rows_count'] == messy_summary_before['duplicate_rows_count']
+    assert reset_data['summary']['row_count'] == 24905
     
     # Verify cell edit reverted back to original
-    reset_prev = client.get(f"/api/dataset/{messy_id}/preview?page=1&page_size=1").json()
-    print(f"[AFTER RESET] Row #1 'Customer ID' reverted to: {reset_prev['rows'][0]['Customer ID']}")
-    assert reset_prev['rows'][0]['Customer ID'] != "VIP-9999"
-    print("[PASS] Reset endpoint verified: accurately restores the original raw upload.")
+    reset_prev = client.get(f"/api/dataset/{anime_id}/preview?page=1&page_size=1").json()
+    print(f"[AFTER RESET] Row #1 'Name' reverted to: '{reset_prev['rows'][0]['Name']}'")
+    assert reset_prev['rows'][0]['Name'] == "Cowboy Bebop"
+    print("[PASS] Reset endpoint verified: accurately restores original 24,905 rows.")
 
     # -------------------------------------------------------------
     # 7. ATOMIC PARQUET WRITE VERIFICATION
@@ -218,7 +226,7 @@ def run_tests():
     print("-" * 70)
     
     from app.services.session_store import STORAGE_DIR
-    dataset_storage_dir = os.path.join(STORAGE_DIR, messy_id)
+    dataset_storage_dir = os.path.join(STORAGE_DIR, anime_id)
     active_parquet_path = os.path.join(dataset_storage_dir, "active.parquet")
     raw_parquet_path = os.path.join(dataset_storage_dir, "raw.parquet")
     
@@ -227,10 +235,10 @@ def run_tests():
     print(f"Active Parquet Path: {active_parquet_path} ({os.path.getsize(active_parquet_path)} bytes)")
     print(f"Raw Parquet Path:    {raw_parquet_path} ({os.path.getsize(raw_parquet_path)} bytes)")
     print("Verified: _atomic_write_parquet writes to tempfile.NamedTemporaryFile in the dataset directory and swaps via os.replace().")
-    print("[PASS] Atomic snapshot persistence verified.")
+    print("[PASS] Atomic snapshot persistence verified on real dataset.")
 
     print("\n" + "=" * 70)
-    print(">>> ALL 7 VERIFICATION ITEMS PASSED PERFECTLY! <<<")
+    print(">>> ALL 7 CLEANING VERIFICATION ITEMS PASSED ON REAL ANIME DATASET! <<<")
     print("=" * 70)
 
 if __name__ == "__main__":

@@ -12,22 +12,13 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 
 SAMPLE_DATASETS: List[SampleDatasetInfo] = [
     SampleDatasetInfo(
-        id="supermarket_sales",
-        name="Supermarket Sales Dataset",
-        description="1,000 historical sales transactions across branches, product lines, payment methods, and customer ratings.",
+        id="anime_dataset",
+        name="Anime Dataset 2023",
+        description="Comprehensive real-world dataset of 24,905 anime titles from MyAnimeList with scores, genres, popularity, and ratings.",
         file_type="csv",
-        row_count=1000,
-        column_count=17,
-        tags=["Retail", "Clean Data", "1,000 Rows", "Finance"],
-    ),
-    SampleDatasetInfo(
-        id="messy_customer_data",
-        name="Messy Customer Churn Dataset",
-        description="212 employee/customer records containing missing values, duplicates, and mixed formatting — ideal for cleaning demo.",
-        file_type="csv",
-        row_count=212,
-        column_count=9,
-        tags=["Messy Data", "Duplicates", "Nulls", "Cleaning Demo"],
+        row_count=24905,
+        column_count=24,
+        tags=["Media & Anime", "Real Data", "24,905 Rows", "MyAnimeList"],
     ),
 ]
 
@@ -87,8 +78,7 @@ async def get_sample_datasets():
 async def load_sample_dataset(sample_id: str):
     """Load a built-in demo dataset into active session store."""
     sample_file_map = {
-        "supermarket_sales": "supermarket_sales.csv",
-        "messy_customer_data": "messy_customer_data.csv",
+        "anime_dataset": "anime-dataset-2023.csv",
     }
 
     if sample_id not in sample_file_map:
@@ -113,7 +103,7 @@ async def load_sample_dataset(sample_id: str):
         file_size = len(content)
         df = data_engine.parse_file(content, filename)
         dataset_id = str(uuid.uuid4())
-        display_name = "Supermarket Sales Analysis.csv" if sample_id == "supermarket_sales" else "Messy Customer Churn.csv"
+        display_name = "Anime Dataset 2023.csv"
         summary = data_engine.generate_summary(df, display_name, file_size, dataset_id)
 
         session_store.set_dataset(dataset_id, df, summary, display_name)

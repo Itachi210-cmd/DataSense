@@ -60,13 +60,25 @@ class DataEngine:
                     except Exception:
                         delimiter = ","
 
-                    df = pd.read_csv(
-                        io.BytesIO(file_bytes),
-                        encoding=enc,
-                        sep=delimiter,
-                        engine="python",
-                        on_bad_lines="skip",
-                    )
+                    NA_VALUES = ["UNKNOWN", "Unknown", "unknown", "N/A", "n/a", "NA", "None", "none", "NaN", "nan"]
+                    try:
+                        df = pd.read_csv(
+                            io.BytesIO(file_bytes),
+                            encoding=enc,
+                            sep=delimiter,
+                            engine="c",
+                            on_bad_lines="skip",
+                            na_values=NA_VALUES,
+                        )
+                    except Exception:
+                        df = pd.read_csv(
+                            io.BytesIO(file_bytes),
+                            encoding=enc,
+                            sep=delimiter,
+                            engine="python",
+                            on_bad_lines="skip",
+                            na_values=NA_VALUES,
+                        )
                     break
                 except Exception as e:
                     last_error = e
@@ -1044,6 +1056,7 @@ class DataEngine:
         if pandas_agg == "count" or not y_col:
             # Count occurrences of x_col
             clean_df = working_df.dropna(subset=["x"]).copy()
+            clean_df = clean_df[~clean_df["x"].astype(str).str.strip().str.lower().isin(["", "nan", "none", "null", "nat"])]
             dropped_nulls = initial_count - len(clean_df)
             grouped = clean_df["x"].value_counts().reset_index()
             grouped.columns = ["x", "val"]
@@ -1053,6 +1066,7 @@ class DataEngine:
                 errors="coerce"
             )
             clean_df = working_df.dropna(subset=["x", "y"]).copy()
+            clean_df = clean_df[~clean_df["x"].astype(str).str.strip().str.lower().isin(["", "nan", "none", "null", "nat"])]
             dropped_nulls = initial_count - len(clean_df)
             grouped = clean_df.groupby("x", as_index=False)["y"].agg(pandas_agg)
             grouped.columns = ["x", "val"]
@@ -1061,19 +1075,29 @@ class DataEngine:
         if config.type in ("bar", "pie"):
             grouped = grouped.sort_values(by="val", ascending=False).reset_index(drop=True)
         else:
+            # Line chart: sort chronologically for dates or sequentially for numbers/text
             try:
-                grouped = grouped.sort_values(by="x", ascending=True).reset_index(drop=True)
+                dt_parsed = pd.to_datetime(grouped["x"], errors="coerce")
+                if dt_parsed.notna().sum() >= len(grouped) * 0.7:
+                    grouped["_sort_key"] = dt_parsed
+                    grouped = grouped.sort_values(by="_sort_key", ascending=True).drop(columns=["_sort_key"]).reset_index(drop=True)
+                else:
+                    grouped = grouped.sort_values(by="x", ascending=True).reset_index(drop=True)
             except Exception:
-                pass
+                try:
+                    grouped = grouped.sort_values(by="x", ascending=True).reset_index(drop=True)
+                except Exception:
+                    pass
 
         # High cardinality handling & "Other" bucket
+
         total_unique = len(grouped)
         max_cat = config.max_categories or 15
         warning_msg = None
 
         if total_unique > max_cat:
             top_part = grouped.iloc[:max_cat].copy()
-            if config.include_other:
+            if config.include_other and config.type != "line":
                 remaining = grouped.iloc[max_cat:]
                 other_val = remaining["val"].sum() if pandas_agg in ("sum", "count") else remaining["val"].mean()
                 other_row = pd.DataFrame([{"x": f"Other ({len(remaining)} categories)", "val": other_val}])
@@ -1081,7 +1105,8 @@ class DataEngine:
                 warning_msg = f"High cardinality detected: dataset contains {total_unique} distinct categories. Displaying top {max_cat} + 'Other' bucket."
             else:
                 grouped = top_part
-                warning_msg = f"High cardinality detected: dataset contains {total_unique} distinct categories. Displaying top {max_cat} categories."
+                warning_msg = f"High cardinality detected: dataset contains {total_unique} distinct points. Displaying first {max_cat} points."
+
 
         if dropped_nulls > 0:
             null_note = f"{dropped_nulls} records with null/missing values were excluded."

@@ -1,0 +1,100 @@
+[
+  {
+    "id": "2573bd73-9269-4b0b-adcd-b0ab655de7db",
+    "dataset_id": "aea8a9e4-5e95-43d1-a4eb-32225dfcd2a3",
+    "title": "Type vs Score_Normalized",
+    "type": "bar",
+    "config": {
+      "title": "Type vs Score_Normalized",
+      "type": "bar",
+      "x_column": "Type",
+      "y_column": "Score_Normalized",
+      "aggregation": "sum",
+      "max_categories": 15,
+      "include_other": true,
+      "color_palette": "indigo",
+      "show_legend": true,
+      "show_grid": true
+    },
+    "data_payload": {
+      "labels": [
+        "TV",
+        "Movie",
+        "OVA",
+        "ONA",
+        "Music",
+        "Special"
+      ],
+      "datasets": [
+        {
+          "label": "Score_Normalized (SUM)",
+          "data": [
+            759700.0,
+            438100.0,
+            407600.0,
+            353300.0,
+            268600.0,
+            255800.0
+          ]
+        }
+      ],
+      "total_points": 6,
+      "dropped_null_count": 74,
+      "warning": "74 records with null/missing values were excluded.",
+      "is_valid": true,
+      "missing_columns": [],
+      "error_message": null
+    },
+    "created_at": "2026-09-23T07:08:15.638557+00:00",
+    "updated_at": "2026-09-23T07:08:15.638557+00:00"
+  },
+  {
+    "id": "424cc834-8834-4abe-9ebf-cf2b84afb1a9",
+    "dataset_id": "aea8a9e4-5e95-43d1-a4eb-32225dfcd2a3",
+    "title": "Anime Type Max Scores",
+    "type": "bar",
+    "config": {
+      "title": "Anime Type Max Scores",
+      "type": "bar",
+      "x_column": "Type",
+      "y_column": "Score",
+      "aggregation": "max",
+      "max_categories": 15,
+      "include_other": true,
+      "color_palette": "purple",
+      "show_legend": true,
+      "show_grid": true
+    },
+    "data_payload": {
+      "labels": [
+        "TV",
+        "Special",
+        "Movie",
+        "OVA",
+        "Music",
+        "ONA"
+      ],
+      "datasets": [
+        {
+          "label": "Score (MAX)",
+          "data": [
+            9.1,
+            9.05,
+            9.04,
+            9.02,
+            8.85,
+            8.72
+          ]
+        }
+      ],
+      "total_points": 6,
+      "dropped_null_count": 9214,
+      "warning": "9214 records with null/missing values were excluded.",
+      "is_valid": true,
+      "missing_columns": [],
+      "error_message": null
+    },
+    "created_at": "2026-09-23T07:08:16.508335+00:00",
+    "updated_at": "2026-09-23T07:08:16.550527+00:00"
+  }
+]
